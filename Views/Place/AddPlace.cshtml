@@ -1,0 +1,23 @@
+﻿@model Lab_4.Models.Place
+@{
+    ViewData["Title"] = "AddPlace";
+}
+
+<h3>@ViewData["Message"]</h3>
+
+<div class="form-group">
+    @using (Html.BeginForm("AddPlace", "Home", FormMethod.Post))
+    {
+        <p>
+            @Html.LabelFor(m => m.Session, "Сеанс")<br />
+            @Html.EditorFor(m => m.Session, new { htmlAttributes = new { @class = "form-control" } })
+        </p>
+        <p>
+            @Html.LabelFor(m => m.PlaceNumber, "Номер места")<br />
+            @Html.EditorFor(m => m.PlaceNumber, new { htmlAttributes = new { @class = "form-control" } })
+        </p>
+        <p>
+            <input type="submit" value="Отправить" class="btn btn-primary mb-2" />
+        </p>
+    }
+</div>

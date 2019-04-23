@@ -1,0 +1,61 @@
+﻿@using Lab_4.ViewModels
+@model PlaceViewModel
+@{
+    ViewData["Title"] = "Places";
+    int i = 1;
+}
+
+<h3>@ViewData["Message"]</h3>
+
+<table class="table table-striped">
+    <tr>
+        <th scope="col">
+            #
+        </th>
+        <th scope="col">
+            <a asp-action="Place" asp-route-sortOrder="@ViewBag.SessionSort">
+                Session
+            </a>
+        </th>
+        <th scope="col">
+            <a asp-action="Place" asp-route-sortOrder="@ViewBag.PlaceNumberSort">
+                PlaceNumber
+            </a>
+        </th>
+    </tr>
+    @foreach (var pf in Model.places)
+    {
+        <tr>
+            <td scope="row">
+                @i
+            </td>
+            <td>
+                @pf.Session
+            </td>
+            <td>
+                @pf.PlaceNumber
+            </td>
+        </tr>
+        i++;
+    }
+</table>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Place"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Place"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

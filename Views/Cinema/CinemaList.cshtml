@@ -1,0 +1,99 @@
+﻿@using Lab_4.ViewModels
+@model CinemaViewModel
+@{
+    ViewData["Title"] = "CinemaList";
+    int i = 1;
+}
+
+<h3>@ViewData["Message"]</h3>
+
+<form method="get">
+    <div class="form-inline form-group">
+        <label class="control-label">Cinema name: </label>
+        @Html.TextBox("name", Model.Name, htmlAttributes: new { @class = "form-control" })
+
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+    </div>
+</form>
+
+<table class="table table-striped">
+    <tr>
+        <th scope="col">
+            #
+        </th>
+        <th scope="col">
+            <a asp-action="CinemaList" asp-route-sortOrder="@ViewBag.CinemaSort" asp-route-type="@ViewBag.Name">
+                Cinema
+            </a>
+        </th>
+        <th scope="col">
+            <a asp-action="CinemaList" asp-route-sortOrder="@ViewBag.AgeSort" asp-route-type="@ViewBag.Name">
+                Age
+            </a>
+        </th>
+        <th scope="col">
+            <a asp-action="CinemaList" asp-route-sortOrder="@ViewBag.DurationSort" asp-route-type="@ViewBag.Name">
+                Duration
+            </a>
+        </th>
+        <th scope="col"></th>
+    </tr>
+    @foreach (var pf in Model.cinemas)
+    {
+        <tr>
+            <td scope="row">
+                @i
+            </td>
+            <td>
+                @pf.Name
+            </td>
+            <td>
+                @pf.Age
+            </td>
+            <td>
+                @pf.Duration
+            </td>
+            <td>
+                <form asp-action="Delete" asp-route-id="@pf.Id" method="post">
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@pf.Id">Изменить</a>
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Удалить
+                    </button>
+                </form>
+            </td>
+        </tr>
+        i++;
+    }
+</table>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    var parms = new Dictionary<string, string>
+{
+{ "page", (Model.PageViewModel.PageNumber - 1).ToString() },
+{ "name", Model.Name }
+};
+
+<a asp-action="CinemaList"
+   asp-all-route-data="@parms"
+   class="btn btn-default btn">
+    <i class="glyphicon glyphicon-chevron-left"></i>
+    Назад
+</a>
+}
+
+@if (Model.PageViewModel.HasNextPage)
+{
+    var parms = new Dictionary<string, string>
+{
+{ "page", (Model.PageViewModel.PageNumber + 1).ToString() },
+{ "name", Model.Name }
+};
+
+<a asp-action="CinemaList"
+   asp-all-route-data="@parms"
+   class="btn btn-default btn">
+    Вперед
+    <i class="glyphicon glyphicon-chevron-right"></i>
+</a>
+}
